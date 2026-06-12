@@ -20,8 +20,18 @@ fi
 
 # 3. Synchronize compiled static assets into the target /docs folder
 echo "📦 Syncing production assets to /docs..."
+# Clean out the old docs directory if it exists to prevent dead file accumulation
+if [ -d "$REPO_DIR/docs" ]; then
+    rm -rf "$REPO_DIR/docs"
+fi
 mkdir -p "$REPO_DIR/docs"
-rsync -av --delete "$EXPORT_DIR/" "$REPO_DIR/docs/"
+
+# Copy all compiled contents from export/ over to docs/
+if [ -d "$EXPORT_DIR" ] && [ "$(ls -A "$EXPORT_DIR")" ]; then
+    cp -r "$EXPORT_DIR"/* "$REPO_DIR/docs/"
+else
+    echo "⚠️ Warning: Export directory is empty. Nothing to copy into /docs."
+fi
 
 # 4. Enter repository root context
 cd "$REPO_DIR" || exit 1
