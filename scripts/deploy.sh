@@ -41,9 +41,9 @@ if git diff-index --quiet HEAD -- 2>/dev/null; then
 fi
 
 echo "💾 Packaging commit matrix..."
-git commit -m "Automated build deployment from Bootstrap Studio: $(date '+%Y-%m-%d %H:%M:%S')"
+git commit -m "Automated build deployment from Bootstrap Studio: $(date '+%Y-%m-%d %H:%M:%S')" >/dev/null 2>&1
 
 echo "📤 Pushing production branch payload to upstream remote ($BRANCH)..."
-git push origin "$BRANCH"
+git push origin "$BRANCH" >/dev/null 2>&1
 
 echo "🎉 Deployment sync complete! timsupply.github.io is updating."
