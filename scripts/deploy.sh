@@ -29,11 +29,11 @@ cd "$REPO_DIR" || exit 1
 
 # 5. Pipeline Git execution
 echo "🔄 Staging tracked updates..."
-git add docs/ scripts/ timsupply.bsdesign .gitignore
+# Mute the add command to stop the line-ending warnings from triggering a Bootstrap Studio popup
+git add docs/ scripts/ timsupply.bsdesign .gitignore >/dev/null 2>&1
 
 # Verify if changes exist relative to the last head index state
 if git diff-index --quiet HEAD -- 2>/dev/null; then
-    # If it's the absolute first commit, diff-index might pass silently, so check status
     if [ -z "$(git status --porcelain)" ]; then
         echo "✅ Architecture up to date. No new modifications to push."
         exit 0
